@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Histórico</title>
+
+	<link rel="stylesheet" 
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>HISTÓRICO DE PARADAS</h1>
+
+<h2>LINHA 01</h2>
+
+<div id="hora"></div>
+
+</header>
+
+<nav>
+
+<a href="/">
+
+<a href="/">
+<button>🏠&nbsp;&nbsp;Principal</button>
+</a>
+
+<a href="/relatorios">
+<button>📊&nbsp;&nbsp;Relatórios</button>
+</a>
+
+<a href="/eventos">
+<button>📋&nbsp;&nbsp;Eventos</button>
+</a>
+
+<button class="menu-ativo">
+📅Histórico</button>
+</a>
+
+<a href="/configuracoes">
+<button>⚙️&nbsp;&nbsp;Configuração</button>
+</a>
+
+</nav>
+
+<section>
+
+<div style="
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    margin-top:30px;
+">
+
+    <h2 style="margin:0;">
+        RELATÓRIOS SALVOS
+    </h2>
+
+    <a href="/salvar-relatorio" class="botao-salvar">
+        💾 Atualizar Relatório
+    </a>
+
+</div>
+
+<table class="tabela-eventos">
+
+<table class="tabela-eventos">
+
+<thead>
+
+<tr>
+
+<th>Data</th>
+<th>Turno</th>
+<th>Total Paradas</th>
+<th>Maior Parada</th>
+<th>Tempo Total</th>
+<th>Estação Recorrente</th>
+<th>Estação Impactante</th>
+<th>Disponibilidade</th>
+
+</tr>
+
+
+</thead>
+
+<tbody>
+
+{% for item in historicos %}
+
+<tr>
+
+<td>{{ item[0] }}</td>
+
+<td>{{ item[1] }}</td>
+
+<td>{{ item[2] }}</td>
+
+<td>{{ item[3] }}</td>
+
+<td>{{ item[4] }}</td>
+
+<td>{{ item[5] }}</td>
+
+<td>{{ item[6] }}</td>
+
+<td>{{ item[7] }}</td>
+
+</tr>
+
+{% endfor %}
+
+
+
+<footer>
+
+
+    
+<div id="statusSistema">
+
+📅  Histórico de Paradas |
+Versão 1.0
+
+</div>
+
+</footer>
+
+<script>
+function atualizarHora() {
+    document.getElementById("hora").textContent =
+        new Date().toLocaleTimeString("pt-BR");
+}
+
+atualizarHora();
+setInterval(atualizarHora, 1000);
+</script>
+
+<script>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Relatórios</title>
+
+    <link rel="stylesheet" 
+href="{{ url_for('static', filename='css/style.css') }}">
+
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>RELATÓRIOS</h1>
+
+    <h2>LINHA 01</h2>
+
+    <div id="hora"></div>
+
+
+
+</header>
+
+<nav>
+
+<a href="/">
+<button>🏠&nbsp;&nbsp;Principal</button>
+</a>
+
+<button class="menu-ativo">
+📊  Relatórios
+</button>
+</a>
+
+<a href="/eventos">
+<button>📋&nbsp;&nbsp;Eventos</button>
+</a>
+
+<a href="/historico">
+<button>📅&nbsp;&nbsp;Histórico</button>
+</a>
+
+<a href="/configuracoes">
+<button>⚙️&nbsp;&nbsp;Configuração</button>
+</a>
+
+</nav>
+
+
+<div class="filtro-turno">
+
+<a href="/relatorios?turno=1º%20TURNO">
+    <button class="btn-turno {% if turno_selecionado == '1º TURNO' %}menu-ativo{% endif %}">
+        1º Turno
+    </button>
+</a>
+
+<a href="/relatorios?turno=2º%20TURNO">
+    <button class="btn-turno {% if turno_selecionado == '2º TURNO' %}menu-ativo{% endif %}">
+        2º Turno
+    </button>
+</a>
+
+<a href="/relatorios?turno=Todos">
+    <button class="btn-turno {% if turno_selecionado == 'Todos' %}menu-ativo{% endif %}">
+         Todos
+    </button>
+</a>
+
+</div>
+  
+  
+
+</div>  
+
+</div>
+
+<section class="painel">
+
+<div class="infos infos-relatorio">
+
+<div class="info">
+<h2>Total de Paradas</h2>
+<div class="valor paradas">
+{{ total_paradas }}
+</div>
+</div>
+
+<div class="info">
+<h2>Tempo Total</h2>
+<div class="valor tempo" id="tempoTotal">
+{{ tempo_total }}
+</div>
+</div>
+
+<div class="info">
+<h2>Maior Parada</h2>
+<div class="valor tempo" id="maiorParada">
+{{ maior_parada }}
+</div>
+</div>
+
+<div class="info">
+<h2>Estação Recorrente</h2>
+<div class="valor">
+{{ estacao_critica }}
+</div>
+</div>
+
+<div class="info">
+    <h2>Estação Impactante</h2>
+    <div class="valor tempo">
+        {{ estacao_impactante }}
+    </div>
+</div>
+
+<div class="info">
+    <h2>Disponibilidade</h2>
+    <div class="valor produzindo" id="disponibilidade">
+        {{ disponibilidade }}
+    </div>
+</div>
+
+</div>
+
+</section>
+{% if turno_selecionado == "Todos" %}
+<section>
+<h2 style="text-align:center; margin-top:0px;">
+    INDICADORES POR ESTAÇÃO
+</h2>
+
+<table class="tabela-eventos">
+
+    <thead>
+        <tr>
+            <th>Estação</th>
+            <th>Quantidade de Paradas</th>
+            <th>% Paradas</th>
+            <th>Tempo Acumulado</th>
+            <th>% Tempo Perdido</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for i in range(estacoes|length) %}
+
+            <tr class="{% if 'E' ~ estacoes[i][0] == estacao_critica %}estacao-critica{% endif %}">
+
+                <td>E{{ estacoes[i][0] }}</td>
+                <td>{{ estacoes[i][1] }}</td>
+                <td class="{% if percentuais[i][1]|replace('%','')|int == maior_percentual %}percentual-maior{% endif %}">{{ percentuais[i][1] }}</td>
+                <td>{{ tempos_estacao[i][1] }}</td>
+                <td class="{% if tempo_perdido[i][1]|replace('%','')|int == maior_tempo_perdido %}percentual-maior{% endif %}">{{ tempo_perdido[i][1] }}</td>
+
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+</section>
+{% endif %}
+{% if turno_selecionado != "Todos" %}
+<section>
+
+<h2 style="text-align:center; margin-top:20px;">
+    INDICADORES POR ESTAÇÃO - 1º PERÍODO
+</h2>
+
+<table class="tabela-eventos">
+
+    <thead>
+
+        <tr>
+            <th>Estação</th>
+            <th>Quantidade de Paradas</th>
+            <th>% Paradas</th>
+            <th>Tempo Acumulado</th>
+            <th>% Tempo Perdido</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% if estacoes_p1 %}
+
+            {% for i in range(estacoes_p1|length) %}
+
+            <tr>
+
+                <td>E{{ estacoes_p1[i][0] }}</td>
+
+                <td>{{ estacoes_p1[i][1] }}</td>
+
+                <td>{{ percentuais_p1[i][1] }}</td>
+
+                <td>{{ tempos_p1[i][1] }}</td>
+
+                <td>{{ tempo_perdido_p1[i][1] }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        {% else %}
+
+            <tr>
+
+                <td colspan="5" style="text-align:center;">
+
+                    Nenhuma parada registrada neste período.
+
+                </td>
+
+            </tr>
+
+        {% endif %}
+
+    </tbody>
+
+</table>
+
+</section>
+{% endif %}
+{% if turno_selecionado != "Todos" %}
+
+<section>
+
+<h2 style="text-align:center; margin-top:40px;">
+    INDICADORES POR ESTAÇÃO - 2º PERÍODO
+</h2>
+
+<table class="tabela-eventos">
+
+    <thead>
+
+        <tr>
+            <th>Estação</th>
+            <th>Quantidade de Paradas</th>
+            <th>% Paradas</th>
+            <th>Tempo Acumulado</th>
+            <th>% Tempo Perdido</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% if estacoes_p2 %}
+
+            {% for i in range(estacoes_p2|length) %}
+
+            <tr>
+
+                <td>E{{ estacoes_p2[i][0] }}</td>
+
+                <td>{{ estacoes_p2[i][1] }}</td>
+
+                <td>{{ percentuais_p2[i][1] }}</td>
+
+                <td>{{ tempos_p2[i][1] }}</td>
+
+                <td>{{ tempo_perdido_p2[i][1] }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        {% else %}
+
+            <tr>
+
+                <td colspan="5" style="text-align:center;">
+
+                    Nenhuma parada registrada neste período.
+
+                </td>
+
+            </tr>
+
+        {% endif %}
+
+    </tbody>
+
+</table>
+
+</section>
+{% endif %}
+
+<footer>
+
+<div id="statusSistema">
+
+📊 Relatórios de Paradas |
+Versão 1.0
+
+</div>
+
+</footer>
+
+<script>
+function atualizarHora() {
+    document.getElementById("hora").textContent =
+        new Date().toLocaleTimeString("pt-BR");
+}
+
+atualizarHora();
+setInterval(atualizarHora, 1000);
+</script>
+
+<script>
+
+async function atualizarRelatorio() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const turno =
+        params.get("turno") || "Todos";
+
+    const resposta = await fetch(
+        `/api/relatorios?turno=${encodeURIComponent(turno)}`
+    );
+
+    const d = await resposta.json();
+
+    document.getElementById(
+        "tempoTotal"
+    ).innerText =
+        d.tempo_total;
+
+    document.getElementById(
+        "maiorParada"
+    ).innerText =
+        d.maior_parada;
+
+    document.getElementById(
+        "disponibilidade"
+    ).innerText =
+        d.disponibilidade;
+
+}
+
+async function loopRelatorio() {
+
+    try {
+
+        await atualizarRelatorio();
+
+    } catch (e) {
+
+        console.log(e);
+
+    }
+
+    setTimeout(
+        loopRelatorio,
+        1000
+    );
+
+}
+
+loopRelatorio();
+    
+</script>
+</body>
+</html>

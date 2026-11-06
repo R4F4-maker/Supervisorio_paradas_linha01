@@ -1,0 +1,522 @@
+/* ===========================
+   VARIÁVEIS
+=========================== */
+
+:root{
+    --bg:#15191f;
+    --header:#1F2630;
+    --card:#2c313c;
+    --footer:#1d222b;
+
+    --azul:#007ACC;
+    --azul-claro:#9bd6fe;
+
+    --verde:#00ff66;
+    --amarelo:#efbf01;
+    --vermelho:#f43606;
+
+    --sombra:0 0 15px rgba(0,0,0,.3);
+}
+
+/* ===========================
+   RESET
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* ===========================
+   BODY
+=========================== */
+
+body{
+    background:var(--bg);
+    color:white;
+    font-family:Arial, sans-serif;
+    min-height:100vh;
+    padding-bottom:80px;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+header{
+    background:var(--header);
+    padding:20px;
+    text-align:center;
+    border-bottom:3px solid var(--azul);
+    box-shadow:0 5px 15px rgba(0,0,0,.4);
+}
+
+#hora{
+    margin-top:15px;
+    font-size:28px;
+    font-weight:bold;
+    color:var(--azul-claro);
+    letter-spacing:2px;
+}
+
+/* ===========================
+   MENU
+=========================== */
+
+nav{
+    text-align:center;
+    padding:15px;    
+    margin-bottom:0;
+
+}
+
+
+button{
+    background:linear-gradient(180deg,#0085E8,#0066B3);
+    color:white;
+    border:none;
+
+    width:100%;
+    max-width:220px;
+    min-width:180px;
+
+    height:60px;
+
+    border-radius:10px;
+
+    font-size:22px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:all .3s ease;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.4);
+}
+
+button:hover{
+    background:linear-gradient(180deg,#00A2FF,#007ACC);
+    box-shadow:0 0 20px #0099FF;
+    transform:translateY(-2px);
+}
+
+button:focus{
+    outline:2px solid #00A2FF;
+    outline-offset:3px;
+}
+
+.menu-ativo{
+
+    background:
+    linear-gradient(
+    180deg,
+    #00A2FF,
+    #007ACC
+    );
+
+    box-shadow:
+    0 0 20px #0099FF;
+}
+
+.botao-salvar{
+    background:#28a745;
+    color:white;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:8px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.botao-salvar:hover{
+    background:#218838;
+}
+
+/* ===========================
+   PAINEL
+=========================== */
+
+.painel{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:10px;
+}
+
+/* ===========================
+   CARDS SUPERIORES
+=========================== */
+
+.infos{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:15px;
+
+    width:100%;
+
+    margin-bottom:40px;
+}
+
+.info{
+    background:var(--card);
+
+    width:250px;
+    min-height:130px;
+
+    padding:25px;
+
+    border-radius:12px;
+
+    box-shadow:var(--sombra);
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+}
+
+.info h2{
+    font-size:25px;
+    margin-bottom:20px;
+    color:white;
+}
+
+.valor{
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* ===========================
+   INDICADORES
+=========================== */
+
+.produzindo{
+    color:var(--verde);
+}
+
+#turno{
+    color:var(--azul-claro);
+}
+
+.paradas{
+    color:var(--amarelo);
+}
+
+.tempo{
+    color:var(--vermelho);
+}
+
+.fora-producao{
+    color:#efbf01;
+}
+
+/* ===========================
+   ESTAÇÕES
+=========================== */
+
+.estacoes{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+
+    width:100%;
+
+    margin-top:35px;
+}
+
+.card{
+    background:var(--card);
+
+    width:220px;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    box-shadow:var(--sombra);
+
+    transition:all .3s ease;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 0 25px rgba(0,153,255,.6);
+}
+
+.indicador{
+    width:30px;
+    height:30px;
+
+    background:#00ff00;
+
+    border-radius:50%;
+
+    margin:15px auto;
+
+    box-shadow:0 0 15px #00ff00;
+
+    transition:all .3s ease;
+}
+
+.indicador.ativo{
+    background-color:var(--vermelho);
+    box-shadow:0 0 15px red;
+    animation:piscar 1s infinite;
+}
+
+.status{
+    font-size:25px;
+    color:#00ff00;
+    font-weight:bold;
+}
+
+/* ===========================
+   ANIMAÇÃO
+=========================== */
+
+@keyframes piscar{
+    0%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.3;
+    }
+
+    100%{
+        opacity:1;
+    }
+}
+
+/* ===========================
+   TABELA DE EVENTOS
+=========================== */
+
+.tabela-container{
+    width:100%;
+    overflow-x:auto;
+}
+
+.tabela-eventos{
+    width:82%;
+    margin:15px auto;
+
+    border-collapse:collapse;
+
+    background:#202020;
+    color:white;
+
+    font-size:18px;
+
+    box-shadow:0 0 20px rgba(0,0,0,.4);
+}
+
+.tabela-eventos th{
+    background:#0078D7;
+    color:white;
+
+    padding:15px;
+
+    text-align:center;
+
+    font-size:20px;
+}
+
+.tabela-eventos td{
+    padding:10px;
+    border-bottom:1px solid #444;
+    text-align:center;
+}
+
+.tabela-eventos tr:hover{
+    background:#2d2d2d;
+}
+
+.evento-acionada{
+    color:#ff3b30;
+    font-weight:bold;
+}
+
+.evento-liberada{
+    color:#2ecc71;
+    font-weight:bold;
+}
+
+.percentual-maior{
+    color:red !important;
+    font-weight:bold;
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+footer{
+    position:fixed;
+
+    bottom:0;
+    left:0;
+
+    width:100%;
+
+    background:var(--footer);
+
+    color:var(--azul-claro);
+
+    text-align:center;
+
+    padding:12px;
+
+    border-top:2px solid var(--azul);
+
+    font-size:16px;
+}
+
+.painel-estacoes {
+    position: fixed;
+    right: 15px;
+    bottom: 50px;
+
+    display: flex;
+    gap: 4px;
+
+    z-index: 9999;
+}
+
+.btn-estacao {
+
+    width: 35px !important;
+    min-width: 35px !important;
+    max-width: 35px !important;
+
+    height: 18px !important;
+
+    font-size: 8px;
+    border-radius: 2px;
+
+    border: none;
+
+    font-weight: bold;
+
+
+    color: #fff;
+    background: #0d8bff;
+
+    cursor: pointer;
+}
+
+.btn-estacao.ativo {
+    background: #ff3b30;
+}
+
+.tabelas-relatorio{
+    display:flex;
+    gap:20px;
+
+    width:95%;
+    margin:20px auto;
+
+    align-items:flex-start;
+}
+
+.coluna-relatorio{
+    flex:1;
+}
+
+.coluna-relatorio h2{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.estacao-critica{
+    background: linear-gradient(
+        90deg,
+        rgba(244,54,6,.25),
+        rgba(244,54,6,.05)
+    );
+}
+
+.estacao-critica td{
+    color:#ff6b3d;
+    font-weight:bold;
+}
+
+
+.filtro-turno{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin:5px;
+}
+
+.btn-turno{
+    width:180px;
+    height:45px;
+
+    background:#007ACC;
+
+    color:white;
+
+    border:none;
+    border-radius:8px;
+
+    font-size:18px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+/* RELATÓRIOS */
+
+.infos-relatorio{
+    margin-bottom: 5px;
+}
+
+.titulo-indicadores{
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* ===========================
+   RESPONSIVIDADE
+=========================== */
+
+@media (max-width:768px){
+
+    #hora{
+        font-size:22px;
+    }
+
+    .info{
+        width:90%;
+    }
+
+    .card{
+        width:90%;
+    }
+
+    button{
+        width:90%;
+        font-size:18px;
+    }
+
+    .tabela-eventos{
+        font-size:14px;
+    }
+
+    .tabela-eventos th{
+        font-size:16px;
+    }
+
+
+
+
+}

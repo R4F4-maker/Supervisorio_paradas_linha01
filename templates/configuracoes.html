@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+	<meta charset="UTF-8">
+
+	<title>Supervisório Linha 01</title>
+
+	<link rel="stylesheet" 
+href="{{ url_for('static', filename='css/style.css') }}">
+
+
+</head>
+
+<body>
+
+
+<header>
+
+    <h1>CONFIGURAÇÕES</h1>
+
+    <div id="hora"></div>
+
+</header>
+
+<nav>
+
+<a href="/">
+<button>🏠&nbsp;&nbsp;Principal</button>
+</a>
+
+<a href="/relatorios">
+<button>📊&nbsp;&nbsp;Relatórios</button>
+</a>
+
+<a href="/eventos">
+<button>📋&nbsp;&nbsp;Eventos</button>
+
+<a href="/historico">
+<button>📅&nbsp;&nbsp;Histórico</button>
+</a>
+
+</a>
+<button class="menu-ativo">⚙️  Configurações</button>
+</a>
+
+</nav>
+
+<footer>
+
+<div id="statusSistema">
+
+📊 Configurações |
+Versão 1.0
+
+</div>
+
+</footer>
+
+<script>
+function atualizarHora() {
+    document.getElementById("hora").textContent =
+        new Date().toLocaleTimeString("pt-BR");
+}
+
+atualizarHora();
+setInterval(atualizarHora, 1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+	<meta charset="UTF-8">
+
+	<title>Supervisório Linha 01</title>
+
+	<link rel="stylesheet" 
+href="{{ url_for('static', filename='css/style.css') }}">
+
+
+</head>
+
+<body>
+
+
+<header>
+
+    <h1>SUPERVISÓRIO DE PARADAS</h1>
+
+    <h2>LINHA 01</h2>
+
+    <div id="hora"></div>
+
+</header>
+
+<nav>
+
+<a href="/">
+
+<button class="menu-ativo">
+🏠&nbsp;&nbsp;Principal
+</button>
+</a>
+
+<a href="/relatorios">
+<button>📊&nbsp;&nbsp;Relatórios</button>
+</a>
+
+<a href="/eventos">
+<button>📋&nbsp;&nbsp;Eventos</button>
+</a>
+
+<a href="/historico">
+<button>📅&nbsp;&nbsp;Histórico</button>
+</a>
+
+<a href="/configuracoes">
+<button>⚙️&nbsp;&nbsp;Configuração</button>
+</a>
+
+</nav>
+
+<section class="painel">
+
+<div class="infos">
+
+<div class="info">
+    <h2>Status Linha</h2>
+    <div id="statusLinha" class="valor produzindo">{{status_linha}}</div></div>
+
+<div class="info">
+    <h2>Turno</h2>
+    <div id="turno" class="valor">{{turno}}</div>
+</div>
+
+<div class="info">
+    <h2>Período</h2>  
+    <div id="periodo" class="valor">{{periodo}}</div>
+</div>
+
+<div class="info">
+    <h2>Contador de Paradas</h2>
+    <div id="contadorParadas" class="valor paradas">0</div>
+</div>
+
+<div class="info">
+
+    <h2>Ultima Parada</h2>
+
+    <div
+        id="paradaAtual"
+        class="valor tempo">
+
+        00:00:00
+
+    </div>
+
+</div>
+
+<div class="info">
+    <h2>Paradas Período</h2>
+    <div id="tempoPeriodo" class="valor tempo">00:00:00</div>
+
+</div>
+
+<div class="info">
+    <h2>Total Paradas</h2>
+    <div id="tempoParadas" class="valor tempo">00:00:00</div>
+</div>
+
+<h2>ESTAÇÃO DE PARADAS</h2>
+
+<div class="estacoes">
+
+{% for i in range(1,7) %}
+
+<div class="card">
+    <h2>ESTAÇÃO {{i}}</h2>
+    <div id="indicador{{i}}" class="indicador"></div>
+    <p id="status{{i}}" class="status">NORMAL</p>
+</div>
+
+{% endfor %}
+
+</div>
+
+<div class="painel-estacoes">
+    <button id="btnE1" class="btn-estacao" onclick="alternarEstacao(this,1)">E1</button>
+    <button id="btnE2" class="btn-estacao" onclick="alternarEstacao(this,2)">E2</button>
+    <button id="btnE3" class="btn-estacao" onclick="alternarEstacao(this,3)">E3</button>
+    <button id="btnE4" class="btn-estacao" onclick="alternarEstacao(this,4)">E4</button>
+    <button id="btnE5" class="btn-estacao" onclick="alternarEstacao(this,5)">E5</button>
+    <button id="btnE6" class="btn-estacao" onclick="alternarEstacao(this,6)">E6</button>
+</div>
+<script>
+function alternarEstacao(botao, estacao) {
+    const ativo = botao.classList.toggle('ativo');
+
+    if (ativo) {
+        console.log(`Estação ${estacao} acionada`);
+
+        // Coloque aqui sua função de acionamento
+        // acionarEstacao(estacao);
+
+        botao.textContent = `E${estacao} ON`;
+    } else {
+        console.log(`Estação ${estacao} liberada`);
+
+        // Coloque aqui sua função de liberação
+        // liberarEstacao(estacao);
+
+        botao.textContent = `E${estacao}`;
+    }
+}
+</script>
+
+<script>
+async function alternarEstacao(botao, estacao) {
+
+    const ativa = botao.classList.contains("ativo");
+
+    try {
+
+        if (!ativa) {
+
+            await fetch(`/api/acionar/${estacao}`);
+
+            await fetch(`/api/evento/${estacao}/EMERGENCIA_ACIONADA`);
+
+            botao.classList.add("ativo");
+
+        } else {
+
+            await fetch(`/api/liberar/${estacao}`);
+
+            await fetch(`/api/evento/${estacao}/EMERGENCIA_LIBERADA`);
+
+            botao.classList.remove("ativo");
+
+        }
+
+    } catch (erro) {
+
+        console.error("Erro:", erro);
+
+    }
+}
+</script>
+
+<script>
+
+async function carregarEstados() {
+
+    try {
+
+        const resposta = await fetch("/api/estacoes");
+        const dados = await resposta.json();
+
+        for (let i = 1; i <= 6; i++) {
+
+            const botao = document.getElementById(`btnE${i}`);
+
+            if (dados[`E${i}`]) {
+                botao.classList.add("ativo");
+            } else {
+                botao.classList.remove("ativo");
+            }
+
+        }
+
+    } catch (erro) {
+        console.error("Erro ao carregar estados:", erro);
+    }
+}
+
+window.onload = carregarEstados;
+
+</script>
+
+</section>
+
+<script src="{{ url_for('static', filename='js/supervisao.js') }}"></script>
+
+<footer>
+
+<div id="statusSistema">
+
+🟢 CLP ONLINE |
+🟢 Banco OK |
+🟢 Comunicação OK |
+Versão 1.0
+
+</div>
+</footer>
+
+</body>
+</html>

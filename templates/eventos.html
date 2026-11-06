@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Eventos - Linha 01</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<header class="header-supervisorio">
+
+    <div>
+
+        <h1>HISTÓRICO DE EVENTOS</h1>
+
+        <h2>LINHA 01</h2>
+
+        <div id="hora"></div>
+
+    </div>
+
+</header>
+<nav>
+
+<a href="/">
+<button>🏠&nbsp;&nbsp;Principal</button>
+</a>
+
+<a href="/relatorios">
+<button>📊&nbsp;&nbsp;Relatórios</button>
+</a>
+
+<a href="/eventos">
+<button class="menu-ativo">
+📋&nbsp;&nbsp;Eventos</button>
+</a>
+
+<a href="/historico">
+<button>📅&nbsp;&nbsp;Histórico</button>
+</a>
+
+<a href="/configuracoes">
+<button>⚙️&nbsp;&nbsp;Configuração</button>
+</a>
+
+</nav>
+
+
+<table class="tabela-eventos">
+
+<thead>
+<tr>
+<th>Data/Hora</th>
+<th>Estação</th>
+<th>Evento</th>
+<th>Turno</th>
+<th>Período</th>
+<th>Duração</th>
+</tr>
+</thead>
+
+<tbody id="listaEventos">
+
+</tbody>
+
+</table>
+
+<script src="{{ url_for('static', filename='js/eventos.js') }}"></script>
+
+<script>
+
+function atualizarHora() {
+
+    const agora = new Date();
+
+    document.getElementById("hora").textContent =
+        agora.toLocaleString("pt-BR");
+
+}
+
+setInterval(atualizarHora, 1000);
+
+atualizarHora();
+
+</script>
+
+<footer>
+
+<div id="statusSistema">
+
+🟢 CLP ONLINE |
+🟢 Banco OK |
+🟢 Eventos Online |
+Versão 1.0
+
+</div>
+
+</footer>
+
+</body>
+
+</html>
